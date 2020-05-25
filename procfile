@@ -1,1 +1,1 @@
-web: gunicorn Nikhil.app
+web: gunicorn Nikhil.wsgi
