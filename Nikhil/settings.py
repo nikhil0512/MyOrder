@@ -1,3 +1,5 @@
+import django_heroku
+
 """
 Django settings for Nikhil project.
 
@@ -128,3 +130,11 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'gupta.nikhil.0512@gmail.com'
 EMAIL_HOST_PASSWORD = 'Nikhil0512@'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+django_heroku.settings(locals())
