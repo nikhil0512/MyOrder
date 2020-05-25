@@ -40,7 +40,7 @@ def home(request):
         for unit in units.split(','):
             if unit not in available_units:
                 available_units.append(unit)
-    return render(request, 'myorder.html', context={'units': available_units})
+    return render(request, 'myorder.html', context={'units': available_units, 'base':BASE_DIR})
 
 
 @csrf_exempt
