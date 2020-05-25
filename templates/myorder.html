@@ -109,7 +109,7 @@
             $("#itemname").autocomplete({
                 source: function (request, response) {
                      $.ajax({
-                         url: "{{ SITE_URL }}/myorder/getItems/",
+                         url: "/myorder/getItems/",
                          type: "GET",
                          data: request,
                              dataType: "JSON",
