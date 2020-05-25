@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <div id="item-detail">
+        <div class="ui-widget">
+            <label for="Name">Item Name </label>
+            <input id="itemname" placeholder="Add Item">
+        </div>
+        <div class="ui-widget">
+            <label for="quantitiy">Quantity</label>
+            <input id="itemquantity" type="number">
+            <select id="unit-dropdown">
+
+            </select>
+            <button id="Add-item" onclick="addItem()">Add</button>
+        </div>
+        <div>
+            <table id="itemList">
+
+            </table>
+        </div>
+        <div><button onclick="gonext()">Next</button></div>
+    </div>
+    <div id="user-detail" style="display: none">
+        <div>Add your detail</div>
+        <form method="post" action="/myorder/placeorder/">
+            {% csrf_token %}
+            <div>
+                <div>Name</div>
+                <div><input id="username" name="username"></div>
+            </div>
+            <div>
+                <div>Phone</div>
+                <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)"></div>
+            </div>
+            <div>
+                <div>Address</div>
+                <div><input id="address" name="address"></div>
+            </div>
+            <div>
+                <div>Email(optional)</div>
+                <div><input id="email" name="email" type="email"></div>
+            </div>
+            <div>
+                <input id="item-list" style="display: block" name="items-dict">
+            </div>
+            <div><button type="submit">Place Order</button></div>
+        </form>
+    </div>
+
+    <script>
+        var item_count = 0
+        var item_list_dict = {}
+        function addItem() {
+            var itemname= $('#itemname').val()
+            var unit = $('#unit-dropdown').val()
+            var quantity = $('#itemquantity').val()
+            $('#itemList').append('<tr><td>'+itemname +'</td><td>'+quantity+unit+'</td></tr>')
+            item_count = item_count + 1
+            item_list_dict[item_count] = {'name':itemname, 'quantity': quantity, 'unit': unit}
+            $('#itemname').val('')
+            $('#itemquantity').val('')
+            set_default_units()
+        }
+
+        function phonenumber(inputtxt)
+        {
+              var phoneno = /^\d{10}$/;
+              if(inputtxt.value.match(phoneno))
+              {
+                  return true;
+              }
+              else
+              {
+                 alert("Not a valid Phone Number");
+                 return false;
+              }
+        }
+
+        function set_default_units(){
+            units_list = {{ units|safe }}
+            select_unit_dropdown = $('#unit-dropdown')
+            for(i=0;i<units_list.length;i++){
+                select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
+            }
+        }
+
+        $("document").ready(function() {
+            set_default_units()
+        });
+
+        function gonext(){
+            document.cookie = JSON.stringify(item_list_dict);
+            document.getElementById("user-detail").style.display = "block";
+            document.getElementById("item-detail").style.display = "none";
+            $('#item-list').val(document.cookie);
+        }
+
+        $(function() {
+            $("#itemname").autocomplete({
+                source: function (request, response) {
+                     $.ajax({
+                         url: "http://127.0.0.1:8000/myorder/getItems/",
+                         type: "GET",
+                         data: request,
+                             dataType: "JSON",
+                             minLength: 2,
+                         success: function (data) {
+                             if (Array.isArray(data) && data.length){
+                                 response($.map(data, function (el) {
+                                     return {
+                                         label: el.name,
+                                         value: el.unit
+                                     };
+                                }));
+
+                             }else {
+                                 set_default_units()
+                             }
+
+                         }
+                     });
+                },
+                select: function (event, ui) {
+                    this.value = ui.item.label;
+                    unitautoselect(ui.item.value)
+                    event.preventDefault();
+                }
+            });
+            function unitautoselect(units) {
+                units_list = units.split(',')
+                select_unit_dropdown = $('#unit-dropdown')
+                select_unit_dropdown.find('option').remove()
+                for(i=0;i<units_list.length;i++){
+                    select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
+                }
+
+            }
+        });
+    </script>
+</body>
+</html>
+
