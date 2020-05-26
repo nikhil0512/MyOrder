@@ -69,7 +69,7 @@ def create_exl(item_dict, phone):
         row = sheet1.row(row_index)
         for col_index, value in enumerate(item.values()):
             row.write(col_index, value)
-
+    print(BASE_DIR+"/"+phone+".xls")
     book.save(BASE_DIR+"/"+phone+".xls")
 
 
