@@ -79,6 +79,6 @@ def send_order(username, phone, address, file_path):
 mobile no - {}
 Address - {}'''.format(username, phone, address)
     recepient = 'nikhilrajeevgupta@gmail.com'
-    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient])
+    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient, 'sketchcraftstudio@gmail.com'])
     email.attach_file(file_path)
     email.send()
