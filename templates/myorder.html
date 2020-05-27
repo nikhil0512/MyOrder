@@ -5,53 +5,59 @@
     <title>Title</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
+    <link rel="stylesheet" href="/static/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
+    <h2 class="title"> A K Traders </h2><br/>
     <div id="item-detail">
+        <h4 class="subtitle"> Add Order Details</h4>
         <div class="ui-widget">
-            <label for="Name">Item Name </label>
-            <input id="itemname" placeholder="Add Item">
+            <label for="Name">Item Name </label><br/>
+            <input id="itemname" placeholder="Add here">
         </div>
         <div class="ui-widget">
-            <label for="quantitiy">Quantity</label>
+            <label for="quantitiy">Quantity</label><br/>
             <input id="itemquantity" type="number">
             <select id="unit-dropdown">
 
             </select>
             <button id="Add-item" onclick="addItem()">Add</button>
         </div>
+        <hr>
         <div>
             <table id="itemList">
 
             </table>
         </div>
-        <div><button onclick="gonext()">Next</button></div>
+        <div><button onclick="gonext()" class="nextButton" >Next</button></div>
     </div>
     <div id="user-detail" style="display: none">
-        <div>Add your detail</div>
+        <h4 class="subtitle">Add your detail</h4>
         <form method="post" action="/myorder/placeorder/">
             {% csrf_token %}
-            <div>
-                <div>Name</div>
-                <div><input id="username" name="username"></div>
-            </div>
-            <div>
-                <div>Phone</div>
-                <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)"></div>
-            </div>
-            <div>
-                <div>Address</div>
-                <div><input id="address" name="address"></div>
-            </div>
-            <div>
-                <div>Email(optional)</div>
-                <div><input id="email" name="email" type="email"></div>
-            </div>
-            <div>
-                <input id="item-list" style="display: none" name="items-dict">
+            <div class="userDetail">
+                <div>
+                    <div>Name</div>
+                    <div><input type="text id="username" name="username"></div>
+                </div>
+                <div>
+                    <div>Phone</div>
+                    <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)"></div>
+                </div>
+                <div>
+                    <div>Address</div>
+                    <div><input type="text id="address" name="address"></div>
+                </div>
+                <div>
+                    <div>Email(optional)</div>
+                    <div><input type="text id="email" name="email" type="email"></div>
+                </div>
+                <div>
+                    <input id="item-list" style="display: none" name="items-dict">
+                </div>
             </div>
             <div><button type="submit">Place Order</button></div>
         </form>
