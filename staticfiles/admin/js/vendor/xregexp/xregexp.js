@@ -207,7 +207,7 @@ XRegExp = XRegExp || (function (undef) {
     }
 
 /**
- * Runs built-in/custom tokens in reverse insertion order, until a match is found.
+ * Runs built-in/custom tokens in reverse insertion orde, until a match is found.
  * @private
  * @param {String} pattern Original pattern from which an XRegExp object is being built.
  * @param {Number} pos Position to search for tokens within `pattern`.
@@ -225,7 +225,7 @@ XRegExp = XRegExp || (function (undef) {
         isInsideConstructor = true;
         // Must reset `isInsideConstructor`, even if a `trigger` or `handler` throws
         try {
-            while (i--) { // Run in reverse order
+            while (i--) { // Run in reverse orde
                 t = tokens[i];
                 if ((t.scope === "all" || t.scope === scope) && (!t.trigger || t.trigger.call(context))) {
                     t.pattern.lastIndex = pos;

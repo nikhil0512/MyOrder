@@ -33,7 +33,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'myorder.apps.MyorderConfig',
+    'adminpanel.apps.MyorderConfig',
+    'order.apps.OrderConfig',
+    'customer.apps.CustomerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'Nikhil.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'mydb'),
     }
 }
 
@@ -139,5 +141,9 @@ STATICFILES_DIRS = (
 )
 
 ROOT_URL = os.path.dirname(BASE_DIR)
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 django_heroku.settings(locals())

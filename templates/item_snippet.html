@@ -1,0 +1,36 @@
+{% load static %}
+
+{% for item_obj in items %}
+    <div class="row item-list-row">
+        <div class="col-md-1 col-xs-1 col-sm-1">
+            <i id="item-check-{{ item_obj.id }}" class="fa fa-check hidden"></i>
+        </div>
+        <div class="fit_img col-md-3 col-xs-3 col-sm-3">
+            <img src="{{ item_obj.image_url.url }}" width="50px" height="50px">
+        </div>
+        <div class="col-md-8 col-xs-8 col-sm-8">
+            <div class="">{{ item_obj.name }}</div>
+            <div>{{ item_obj.hindiname }}</div>
+            <div class="row">
+                <div class="col-md-4 col-xs-4 col-sm-4">
+                    <input type="number" id="quantity-{{ item_obj.id }}"></div>
+                <div class="col-md-4 col-xs-4 col-sm-4">
+                    <select id="unit-{{ item_obj.id }}" onclick="set_units({{ item_obj.id }}, '{{ item_obj.unit|safe }}')"
+                            onchange="change_unit(this, 'unit-{{ item_obj.id }}')">
+                        <option>Select Unit</option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-xs-4 col-sm-4">
+                    <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">
+                    <input type="hidden" id="itemnamehindi-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
+                    <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{{ item_obj.image_url.url }}">
+                <div class="col-md-4 col-xs-4 col-sm-4">
+                    <button id="item-add-update-{{ item_obj.id }}" onclick="add_item_cart({{ item_obj.id }})">Add</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+

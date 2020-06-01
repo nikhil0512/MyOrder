@@ -5,154 +5,119 @@
     <title>Title</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+          crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script src="../static/myjavascript.js"></script>
 </head>
 
 <body>
-    <h2 class="title"> A K Traders </h2><br/>
-    <div id="item-detail">
-        <h4 class="subtitle"> Add Order Details</h4>
-        <div class="ui-widget">
-            <label for="Name">Item Name </label><br/>
-            <input id="itemname" placeholder="Add here">
-        </div>
-        <div class="ui-widget">
-            <label for="quantitiy">Quantity</label><br/>
-            <input id="itemquantity" type="number">
-            <select id="unit-dropdown">
+    <div class="container-fluid">
+        {% if order_placed %}
+            <div class="alert alert-success h5" role="alert">your order is placed.</div>
+        {% endif %}
+        <h2 class="title"> A K Traders </h2><br/>
+        <div id="item-detail">
+            <!-- Tab links -->
+            <div class="tab">
+              <button class="tablinks active" onclick="openTab(event, 'itemlist')">Item List</button>
+              <button class="tablinks" onclick="openTab(event, 'myorder')">My Order</button>
+            </div>
 
-            </select>
-            <button id="Add-item" onclick="addItem()">Add</button>
-        </div>
-        <hr>
-        <div>
-            <table id="itemList">
+        <!-- Tab content -->
+            <div id="itemlist" class="tabcontent">
+                <div id="item-detail" class="form-group">
+                    <div class="row">
+                        <div class="col-md-12 col-sm12 col-xs-12">
+                            <h4 class=""> Add Order Details</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label for="Name">Item Name </label><br/>
+                            <div class="row">
+                                <div class="col-lg-8 col-sm-8 col-xs-8">
+                                    <input id="itemname" placeholder="Add here" class="form-control" >
+                                </div>
+                                <div class="col-lg-4 col-sm-4 col-xs-4">
+                                    <button id="Add-item" onclick="addItem()" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="items-ul">
 
-            </table>
-        </div>
-        <div><button onclick="gonext()" class="nextButton" >Next</button></div>
-    </div>
-    <div id="user-detail" style="display: none">
-        <h4 class="subtitle">Add your detail</h4>
-        <form method="post" action="/myorder/placeorder/">
-            {% csrf_token %}
-            <div class="userDetail">
-                <div>
-                    <div>Name</div>
-                    <div><input type="text" id="username" name="username"></div>
-                </div>
-                <div>
-                    <div>Phone</div>
-                    <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)"></div>
-                </div>
-                <div>
-                    <div>Address</div>
-                    <div><input type="text" id="address" name="address"></div>
-                </div>
-                <div>
-                    <div>Email(optional)</div>
-                    <div><input type="text" id="email" name="email" type="email"></div>
-                </div>
-                <div>
-                    <input id="item-list" style="display: none" name="items-dict">
                 </div>
             </div>
-            <div><button type="submit">Place Order</button></div>
-        </form>
+
+            <div id="myorder" class="tabcontent">
+                <h3>My Orders</h3>
+                <div class="row" id="item_order_list">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <button onclick="gonext()" class="button col-md-1 form-control" >Submit Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="user-detail" style="display: none">
+            <h4 class="subtitle">Add your detail</h4>
+            <form method="post" action="/adminpanel/placeorder/">
+                {% csrf_token %}
+                <div class="userDetail">
+                    <div>
+                        <div>Name</div>
+                        <div><input type="text" id="username" name="username" class="form-control"></div>
+                    </div>
+                    <div>
+                        <div>Phone</div>
+                        <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)" class="form-control"></div>
+                    </div>
+                    <div>
+                        <div>Address</div>
+                        <div><input type="text" id="address" name="address" class="form-control"></div>
+                    </div>
+                    <div>
+                        <div>Email(optional)</div>
+                        <div><input type="text" id="email" name="email" type="email" class="form-control"></div>
+                    </div>
+                    <div>
+                        <input id="item-list" style="display: none" name="items-dict">
+                    </div>
+                    <div><button type="submit" class="btn btn-primary">Place Order</button></div>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <script>
-        var item_count = 0
-        var item_list_dict = {}
-        function addItem() {
-            var itemname= $('#itemname').val()
-            var unit = $('#unit-dropdown').val()
-            var quantity = $('#itemquantity').val()
-            $('#itemList').append('<tr><td>'+itemname +'</td><td>'+quantity+unit+'</td></tr>')
-            item_count = item_count + 1
-            item_list_dict[item_count] = {'name':itemname, 'quantity': quantity, 'unit': unit}
-            $('#itemname').val('')
-            $('#itemquantity').val('')
-            set_default_units()
-        }
-
-        function phonenumber(inputtxt)
-        {
-              var phoneno = /^\d{10}$/;
-              if(inputtxt.value.match(phoneno))
-              {
-                  return true;
-              }
-              else
-              {
-                 alert("Not a valid Phone Number");
-                 return false;
-              }
-        }
-
-        function set_default_units(){
-            units_list = {{ units|safe }}
-            select_unit_dropdown = $('#unit-dropdown')
-            for(i=0;i<units_list.length;i++){
-                select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
-            }
-        }
-
-        $("document").ready(function() {
-            set_default_units()
-        });
-
-        function gonext(){
-            document.cookie = JSON.stringify(item_list_dict);
-            document.getElementById("user-detail").style.display = "block";
-            document.getElementById("item-detail").style.display = "none";
-            $('#item-list').val(document.cookie);
-        }
-
-        $(function() {
-            $("#itemname").autocomplete({
-                source: function (request, response) {
-                     $.ajax({
-                         url: "/myorder/getItems/",
-                         type: "GET",
-                         data: request,
-                             dataType: "JSON",
-                             minLength: 2,
-                         success: function (data) {
-                             if (Array.isArray(data) && data.length){
-                                 response($.map(data, function (el) {
-                                     return {
-                                         label: el.name,
-                                         value: el.unit
-                                     };
-                                }));
-
-                             }else {
-                                 set_default_units()
-                             }
-
-                         }
-                     });
-                },
-                select: function (event, ui) {
-                    this.value = ui.item.label;
-                    unitautoselect(ui.item.value)
-                    event.preventDefault();
-                }
-            });
-            function unitautoselect(units) {
-                units_list = units.split(',')
-                select_unit_dropdown = $('#unit-dropdown')
-                select_unit_dropdown.find('option').remove()
-                for(i=0;i<units_list.length;i++){
-                    select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
-                }
-
-            }
-        });
-    </script>
 </body>
+<script>
+    $("document").ready(function() {
+        set_default_units({{ units|safe }});
+        openTab(event, 'itemlist');
+        item_snippet();
+    });
+
+    var el = document.getElementById('itemname');
+    el.addEventListener('keyup', function(event) {
+        // Checking for Backspace.
+        if (event.keyCode == 8 || event.keyCode == 46) {
+            item_snippet()
+        }
+        else{
+            item_snippet()
+        }
+    });
+</script>
 </html>
 
