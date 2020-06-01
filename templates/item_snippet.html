@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-4 col-xs-4 col-sm-4">
                     <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">
-                    <input type="hidden" id="itemnamehindi-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
+                    <input type="hidden" id="hindiname-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
                     <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{{ item_obj.image_url.url }}">
                 <div class="col-md-4 col-xs-4 col-sm-4">
                     <button id="item-add-update-{{ item_obj.id }}" onclick="add_item_cart({{ item_obj.id }})">Add</button>
