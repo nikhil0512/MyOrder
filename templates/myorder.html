@@ -36,12 +36,25 @@
                 <div id="item-detail" class="form-group">
                     <div class="row">
                         <div class="col-md-12 col-sm12 col-xs-12">
-                            <h4 class=""> Add Order Details</h4>
+                            <h4>Add Order Details</h4>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <label for="Name">Item Name </label><br/>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <label for="Name">Item Name </label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <select id="category_list" name="category_list" onchange="item_snippet()">
+                                        <option value="0">All Category</option>
+                                        {% for cat_obj in categories %}
+                                            <option value="{{ cat_obj.id }}">{{ cat_obj.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-8 col-sm-8 col-xs-8">
                                     <input id="itemname" placeholder="Add here" class="form-control" >

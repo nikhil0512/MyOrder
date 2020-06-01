@@ -72,7 +72,7 @@ def items_snippet(request, category_id, item_name):
         category_id = 0
 
     if category_id != 0 and item_name != 'all':
-        items = items.filter(category_id=category_id, name__icontains=item_name)
+        items = items.filter(category_id=category_id, name__istartswith=item_name)
     else:
         if category_id != 0:
             items = items.filter(category_id=category_id)
@@ -86,13 +86,15 @@ def items_snippet(request, category_id, item_name):
 def home(request):
     items = Items.objects.all()
     items_unit_list = items.distinct().values_list('unit', flat=True)
+    categories = Category.objects.all()
     available_units = []
     for units in items_unit_list:
         for unit in units.split('/'):
             if unit not in available_units:
                 available_units.append(unit)
 
-    return render(request, 'myorder.html', context={'items': items, 'units': available_units, 'base':BASE_DIR})
+    return render(request, 'myorder.html',
+                  context={'items': items, 'units': available_units, 'categories': categories, 'base':BASE_DIR})
 
 
 @csrf_exempt

@@ -52,7 +52,7 @@ function openTab(evt, tabName) {
 
 function  item_snippet() {
     var term = $('#itemname').val();
-    var category_filter = $('#category-select').val();
+    var category_filter = $('#category_list').val();
     if (category_filter === undefined || category_filter ==0) {
         category_filter = 0;
     }
