@@ -2,11 +2,11 @@ document.cookie = JSON.stringify({})
 
 
 function gonext(){
-
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
     $('#item-list').val(document.cookie);
 }
+
 
 function phonenumber(inputtxt)
 {
@@ -195,7 +195,7 @@ function myorder() {
             '            <div></div>\n' +
             '        </div>\n' +
             '        <div class="col-md-1 col-sm-1 col-xs-1">' +
-            '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',item_id)"></i>'+
+            '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_id + ')"></i>'+
             '        </div>'+
             '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',item_id)">' +
             '           <div class="icon-trash" style="float: left">\n' +
