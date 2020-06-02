@@ -19,6 +19,12 @@
                             onchange="change_unit(this, 'unit-{{ item_obj.id }}')">
                         <option>Select Unit</option>
                     </select>
+                    {% if item_obj.sub_items %}
+                        <select id="subitemlist-{{ item_obj.id }}" onclick="set_subitem({{ item_obj.id }}, '{{ item_obj.sub_items|safe }}')"
+                                onchange="change_subitem(this, 'subitemlist-{{ item_obj.id }}')">
+                            <option>Choice your item</option>
+                        </select>
+                    {% endif %}
                 </div>
                 <div class="col-md-4 col-xs-4 col-sm-4">
                     <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">

@@ -83,7 +83,25 @@ function set_units(id, units){
 function change_unit(clicked_unit, select_id) {
     event.preventDefault();
     var a = clicked_unit.value;
-    document.getElementById(select_id).selectedIndex = clicked_unit.options.selectedIndex;
+    document.getElementById(select_id).selecteIndexd = clicked_unit.options.selectedIndex;
+    console.log(a);
+    return true;
+}
+
+function set_subitem(id, subitems){
+    unit_list = subitems.split('/');
+    select_unit_dropdown = $('#subitemlist-'+id);
+    select_unit_dropdown.empty();
+    select_unit_dropdown.append($('<option>', {value:'', text:'Choice your item'}));
+    for(i=0;i<unit_list.length;i++){
+        select_unit_dropdown.append($('<option>', {value:unit_list[i], text:unit_list[i]}));
+    }
+}
+
+function change_subitem(clicked_subitem, select_id) {
+    event.preventDefault();
+    var a = clicked_subitem.value;
+    document.getElementById(select_id).selectedIndex = clicked_subitem.options.selectedIndex;
     console.log(a);
     return true;
 }
@@ -109,10 +127,20 @@ function add_item_cart(item_id) {
         alert("Please enter Quantity.");
         return false;
     }
+    item_dict['id'] = item_id;
     item_dict['unit'] = $('#unit-'+item_id).val();
+    var subitem = $('#subitemlist-'+item_id).val();
+    item_dict['subitem'] = subitem
 
     var cookies_data = JSON.parse(document.cookie.split(';')[0]);
-    cookies_data[item_id] = item_dict;
+    if (subitem){
+        var item_key = item_id + '_'+ subitem
+    }
+    else{
+        var item_key = item_id
+    }
+
+    cookies_data[item_key] = item_dict;
     document.cookie = JSON.stringify(cookies_data);
 
     var check = document.getElementById('item-check-'+ item_id);
@@ -123,6 +151,31 @@ function add_item_cart(item_id) {
 
 }
 
+function remove_item(item_id, item_key) {
+    var cookie_data = JSON.parse(document.cookie.split(';')[0]);
+    delete cookie_data[item_key];
+    document.cookie = JSON.stringify(cookie_data);
+    var elem = document.querySelector('#order-row-'+item_key);
+    elem.parentNode.removeChild(elem);
+    document.getElementById('quantity-'+item_id).selectedIndex=0;
+    document.getElementById('unit-'+item_id).selectIndex=0;
+    $('#item-add-update-'+item_id).text('Add');
+    document.getElementById('item-check-'+ item_id).classList.add('hidden');
+}
+
+function edit_item(item_id, item_key) {
+    var quantity = parseInt(prompt('Enter Quantity'));
+    if (quantity == null || Number.isNaN(quantity) || quantity == "") {
+        alert('Please enter valid quantity.');
+    }
+    else{
+        var cookie_data = JSON.parse(document.cookie.split(';')[0]);
+        cookie_data[item_key]['quantity'] = quantity;
+        document.cookie = JSON.stringify(cookie_data);
+        document.getElementById("edit-quantity-"+ item_key).innerHTML = quantity;
+    }
+}
+
 function myorder() {
     var item_row_html;
     var item_order_list = $('#item_order_list');
@@ -130,17 +183,28 @@ function myorder() {
     item_order_list.empty();
     for(item_id in cookie_data){
         item_data = cookie_data[item_id];
-
-        item_row_html = '<div class="row item-list-row">\n' +
+        item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row">\n' +
             '        <div class="fit_img col-md-3 col-xs-3 col-sm-3">\n' +
-            '            <img src="' + item_data['img_url'] + '" width="50px" height="50px">\n' +
+            '            <img src="' + item_data['img_url'] + '" width="120px" height="120px">\n' +
             '        </div>\n' +
-            '        <div class="col-md-9 col-xs-9 col-sm-9">\n' +
-            '            <div class="">' + item_data['name'] + '</div>\n' +
+            '        <div class="col-md-7 col-xs-7 col-sm-7">\n' +
+            '            <div class="">' + item_data['name'] + '(' + item_data['subitem'] +')'+'</div>\n' +
             '            <div>' +  item_data['hindiname'] + '</div>\n' +
-            '            <div>' +  item_data['quantity'] + item_data['unit'] + '</div>\n' +
-            '            <div>close</div>\n' +
+            '            <div id="edit-quantity-'+ item_id +'" style="display: inline-block">' +  item_data['quantity'] +' </div>' +
+            '            <div style="display: inline-block">' + item_data['unit'] + '</div>\n' +
+            '            <div></div>\n' +
             '        </div>\n' +
+            '        <div class="col-md-1 col-sm-1 col-xs-1">' +
+            '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',item_id)"></i>'+
+            '        </div>'+
+            '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',item_id)">' +
+            '           <div class="icon-trash" style="float: left">\n' +
+            '           <div class="trash-lid" style="background-color: red"></div>\n' +
+            '           <div class="trash-container" style="background-color: red"></div>\n' +
+            '           <div class="trash-line-1"></div>\n' +
+            '           <div class="trash-line-2"></div>\n' +
+            '           <div class="trash-line-3"></div>\n' +
+            '        </div>'+
             '    </div>'
         item_order_list.append(item_row_html);
         console.log(cookie_data[item_id]);
