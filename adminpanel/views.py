@@ -1,5 +1,4 @@
 import os
-import socket
 import json
 import xlwt
 import random
@@ -13,7 +12,6 @@ from adminpanel.models import Items, Category
 from adminpanel.serializers import ItemsSerializer
 from django.core.mail import EmailMessage
 
-socket.getaddrinfo('localhost', 8000)
 
 def uploaddatatemp(request):
     wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
