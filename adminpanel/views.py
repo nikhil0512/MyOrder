@@ -13,7 +13,7 @@ from adminpanel.models import Items, Category
 from adminpanel.serializers import ItemsSerializer
 from django.core.mail import EmailMessage
 
-socket.getaddrinfo('localhost', 8000, 'https://placeyourorders.herokuapp.com/')
+socket.getaddrinfo('localhost', 8000)
 
 def uploaddatatemp(request):
     wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
