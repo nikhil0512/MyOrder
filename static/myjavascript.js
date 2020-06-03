@@ -147,7 +147,7 @@ function add_item_cart(item_id) {
     if (subitem != undefined){
         item_dict['subitem'] = subitem
     }
-    
+
     var cookies_data = JSON.parse(document.cookie.split(';')[0]);
     if (subitem){
         var item_key = item_id + '_'+ subitem
@@ -205,7 +205,7 @@ function myorder() {
             '        <div class="col-md-8 col-xs-8 col-sm-8">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
-            '                   <div class="item-name">' + item_data['name'] + ')'+'</div>\n' +
+            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
             '                   <div class="item-hindi-name m5-bottom">' +  item_data['hindiname'] + '</div>\n' +
             '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
             '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +
@@ -213,9 +213,9 @@ function myorder() {
             '            </div>'+
             '        </div>\n' +
             '        <div class="col-md-1 col-sm-1 col-xs-1">' +
-            '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_id + ')"></i>'+
+            '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_data['id'] + ')"></i>'+
             '        </div>'+
-            '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',item_id)">' +
+            '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',' + item_id + ')">' +
             '           <div class="icon-trash" style="float: left">\n' +
             '           <div class="trash-lid" style="background-color: blue"></div>\n' +
             '           <div class="trash-container" style="background-color: blue"></div>\n' +
