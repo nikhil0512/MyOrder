@@ -120,7 +120,7 @@ def placeOrder(request):
             create_exl(item_dict, phone)
             file_path = BASE_DIR+'/'+phone+'.xls'
             send_order(username, phone, address, file_path)
-            #os.remove(file_path)
+            os.remove(file_path)
             order_placed = True
         except Exception as e:
             print(e)
