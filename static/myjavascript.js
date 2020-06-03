@@ -119,6 +119,7 @@ function add_item_cart(item_id) {
 
     item_dict['name'] = itemname.val();
     var hindiname = $('#hindiname-'+item_id).val();
+
     if (hindiname != undefined){
         item_dict['hindiname'] = hindiname;
     }
@@ -134,6 +135,15 @@ function add_item_cart(item_id) {
     }
     if (quantity != undefined){
         item_dict['quantity'] = quantity
+    }
+    var new_item = $('#new-item-'+item_id).val();
+    if (new_item != undefined){
+        item_dict['new_item'] = true;
+        var comment = $('#comment-'+item_id).val();
+        if (comment == undefined){
+            comment = ''
+        }
+        item_dict['comment'] = comment;
     }
 
     item_dict['id'] = item_id;
@@ -198,7 +208,33 @@ function myorder() {
     item_order_list.empty();
     for(item_id in cookie_data){
         item_data = cookie_data[item_id];
-        item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
+        if (item_data['new_item'] != undefined){
+            item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
+            '        <div class="fit_img col-md-2 col-xs-2 col-sm-2">\n' +
+            '        </div>\n' +
+            '        <div class="col-md-8 col-xs-8 col-sm-8">\n' +
+            '            <div class="row">' +
+            '                <div class="col-sm-12 col-md-12 col-xs-12">' +
+            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
+            '                   <div class="item-hindi-name m5-bottom">' + item_data['comment'] + '</div>\n' +
+            '                </div>' +
+            '            </div>'+
+            '        </div>\n' +
+            '        <div class="col-md-1 col-sm-1 col-xs-1">' +
+            '        '+
+            '        </div>'+
+            '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',' + item_id + ')">' +
+            '           <div class="icon-trash" style="float: left">\n' +
+            '           <div class="trash-lid" style="background-color: blue"></div>\n' +
+            '           <div class="trash-container" style="background-color: blue"></div>\n' +
+            '           <div class="trash-line-1"></div>\n' +
+            '           <div class="trash-line-2"></div>\n' +
+            '           <div class="trash-line-3"></div>\n' +
+            '        </div>'+
+            '    </div>'
+        }
+        else {
+            item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
             '        <div class="fit_img col-md-2 col-xs-2 col-sm-2">\n' +
             '            <img src="' + item_data['img_url'] + '" width="150px" height="150px">\n' +
             '        </div>\n' +
@@ -224,6 +260,7 @@ function myorder() {
             '           <div class="trash-line-3"></div>\n' +
             '        </div>'+
             '    </div>'
+        }
         item_order_list.append(item_row_html);
         console.log(cookie_data[item_id]);
     }

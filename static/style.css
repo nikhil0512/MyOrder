@@ -235,6 +235,11 @@ a {
   margin-bottom: 5px;
 }
 
+.btn-style {
+  font-size: 25px !important;
+  padding: 0px 12px !important;
+}
+
 .m10-bottom {
   margin-bottom: 10px;
 }

@@ -1,4 +1,5 @@
 import os
+import socket
 import json
 import xlwt
 import random
@@ -12,6 +13,7 @@ from adminpanel.models import Items, Category
 from adminpanel.serializers import ItemsSerializer
 from django.core.mail import EmailMessage
 
+socket.getaddrinfo('localhost', 8000, 'https://placeyourorders.herokuapp.com/')
 
 def uploaddatatemp(request):
     wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
@@ -135,9 +137,17 @@ def create_exl(item_dict, phone):
         sheet1.row(0).write(i, header)
     for row_index, item in enumerate(item_dict.values(), start=1):
         row = sheet1.row(row_index)
-        row.write(0, item['name'])
-        row.write(1, item['quantity'])
-        row.write(2, item['unit'])
+        if item.get('new_item'):
+            row.write(0, item['name'])
+            row.write(1, '')
+            row.write(2, '')
+            row.write(3, item.get('comment', ''))
+
+        else:
+            row.write(0, item.get('name', ''))
+            row.write(1, item.get('quantity', ''))
+            row.write(2, item.get('unit', ''))
+            row.write(3, item.get('comment', ''))
     print(BASE_DIR+"/"+phone+".xls")
     book.save(BASE_DIR+"/"+phone+".xls")
 
