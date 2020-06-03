@@ -118,20 +118,36 @@ function add_item_cart(item_id) {
     var itemname = $('#itemname-'+item_id);
 
     item_dict['name'] = itemname.val();
-    item_dict['hindiname'] = $('#hindiname-'+item_id).val();
-    item_dict['img_url'] = $('#itemimg-'+item_id).val();
+    var hindiname = $('#hindiname-'+item_id).val();
+    if (hindiname != undefined){
+        item_dict['hindiname'] = hindiname;
+    }
+    var item_img = $('#itemimg-'+item_id).val();
+    if (item_img != undefined){
+        item_dict['img_url'] = item_img
+    }
 
     var quantity = $('#quantity-'+item_id).val();
-    item_dict['quantity'] = quantity
     if (quantity == "") {
         alert("Please enter Quantity.");
         return false;
     }
-    item_dict['id'] = item_id;
-    item_dict['unit'] = $('#unit-'+item_id).val();
-    var subitem = $('#subitemlist-'+item_id).val();
-    item_dict['subitem'] = subitem
+    if (quantity != undefined){
+        item_dict['quantity'] = quantity
+    }
 
+    item_dict['id'] = item_id;
+
+    var unit = $('#unit-'+item_id).val();
+    if (unit != undefined){
+        item_dict['unit'] = unit;
+    }
+
+    var subitem = $('#subitemlist-'+item_id).val();
+    if (subitem != undefined){
+        item_dict['subitem'] = subitem
+    }
+    
     var cookies_data = JSON.parse(document.cookie.split(';')[0]);
     if (subitem){
         var item_key = item_id + '_'+ subitem
@@ -148,7 +164,6 @@ function add_item_cart(item_id) {
 
     var add_btn = document.getElementById('item-add-update-'+item_id);
     add_btn.innerText = 'Update';
-
 }
 
 function remove_item(item_id, item_key) {
@@ -183,24 +198,27 @@ function myorder() {
     item_order_list.empty();
     for(item_id in cookie_data){
         item_data = cookie_data[item_id];
-        item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row">\n' +
-            '        <div class="fit_img col-md-3 col-xs-3 col-sm-3">\n' +
-            '            <img src="' + item_data['img_url'] + '" width="120px" height="120px">\n' +
+        item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
+            '        <div class="fit_img col-md-2 col-xs-2 col-sm-2">\n' +
+            '            <img src="' + item_data['img_url'] + '" width="150px" height="150px">\n' +
             '        </div>\n' +
-            '        <div class="col-md-7 col-xs-7 col-sm-7">\n' +
-            '            <div class="">' + item_data['name'] + '(' + item_data['subitem'] +')'+'</div>\n' +
-            '            <div>' +  item_data['hindiname'] + '</div>\n' +
-            '            <div id="edit-quantity-'+ item_id +'" style="display: inline-block">' +  item_data['quantity'] +' </div>' +
-            '            <div style="display: inline-block">' + item_data['unit'] + '</div>\n' +
-            '            <div></div>\n' +
+            '        <div class="col-md-8 col-xs-8 col-sm-8">\n' +
+            '            <div class="row">' +
+            '                <div class="col-sm-12 col-md-12 col-xs-12">' +
+            '                   <div class="item-name">' + item_data['name'] + ')'+'</div>\n' +
+            '                   <div class="item-hindi-name m5-bottom">' +  item_data['hindiname'] + '</div>\n' +
+            '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
+            '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +
+            '                 </div>' +
+            '            </div>'+
             '        </div>\n' +
             '        <div class="col-md-1 col-sm-1 col-xs-1">' +
             '           <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_id + ')"></i>'+
             '        </div>'+
             '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',item_id)">' +
             '           <div class="icon-trash" style="float: left">\n' +
-            '           <div class="trash-lid" style="background-color: red"></div>\n' +
-            '           <div class="trash-container" style="background-color: red"></div>\n' +
+            '           <div class="trash-lid" style="background-color: blue"></div>\n' +
+            '           <div class="trash-container" style="background-color: blue"></div>\n' +
             '           <div class="trash-line-1"></div>\n' +
             '           <div class="trash-line-2"></div>\n' +
             '           <div class="trash-line-3"></div>\n' +

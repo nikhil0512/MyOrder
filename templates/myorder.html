@@ -36,17 +36,17 @@
                 <div id="item-detail" class="form-group">
                     <div class="row">
                         <div class="col-md-12 col-sm12 col-xs-12 h4">
-                            <h4>Add Order Details</h4>
+                            <div class="item-list-header">Add Order Details</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="row">
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <label for="Name">Item Name </label>
+                            <div class="row form-group">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                    <label for="Name" style="font-size: 25px; color: #c65800">Item Name </label>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
-                                    <select id="category_list" name="category_list" onchange="item_snippet()">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <select id="category_list" name="category_list" onchange="item_snippet()" class="form-control">
                                         <option value="0">All Category</option>
                                         {% for cat_obj in categories %}
                                             <option value="{{ cat_obj.id }}">{{ cat_obj.name }}</option>
@@ -56,11 +56,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-8 col-sm-8 col-xs-8">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
                                     <input id="itemname" placeholder="Add here" class="form-control" >
-                                </div>
-                                <div class="col-lg-4 col-sm-4 col-xs-4">
-                                    <button id="Add-item" onclick="addItem()" class="btn btn-primary">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -72,13 +69,18 @@
             </div>
 
             <div id="myorder" class="tabcontent">
-                <h3>My Orders</h3>
-                <div class="row" id="item_order_list">
+                <div class="row">
+                    <div class="col-md-12 col-sm12 col-xs-12 h4">
+                        <div class="item-list-header">My Orders</div>
+                    </div>
+                </div>
+                <div id="item_order_list">
 
                 </div>
+
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <button onclick="gonext()" class="button col-md-1 form-control" >Submit Order</button>
+                        <button onclick="gonext()" class="btn btn-primary col-md-1 form-control" >Submit Order</button>
                     </div>
                 </div>
             </div>

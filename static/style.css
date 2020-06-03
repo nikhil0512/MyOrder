@@ -43,6 +43,7 @@
   padding: 5px;
   margin: 5px;
   text-align: initial;
+  border-bottom: 1px solid #ccc;
 }
 
 #items-ul {
@@ -52,7 +53,7 @@
 
 .fit_img {
   text-align: center; !important;
-  margin: 12px 0px; !important;
+  margin: 5px 0px; !important;
 }
 
 
@@ -60,7 +61,8 @@
 .tab {
   overflow: hidden;
   border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  background-color: #c65800;
+  color: white;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -77,12 +79,12 @@
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-  background-color: #ddd;
+  background-color: #6d2e01;
 }
 
 /* Create an active/current tablink class */
 .tab button.active {
-  background-color: #ccc;
+  background-color: #873c00;
 }
 
 /* Style the tab content */
@@ -91,6 +93,11 @@
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+.tab .tablinks{
+  font-size: 25px;
+  font-weight: 400;
 }
 
 .hidden {
@@ -207,3 +214,28 @@ a {
 }
 
 /* trash icon end */
+
+
+/* header and text style */
+.item-list-header{
+  font-size: 25px;
+
+}
+
+.item-name {
+  font-size: 25px;
+  font-weight: 400;
+}
+.item-hindi-name{
+  font-size: 18px;
+  font-weight: 200;
+}
+
+.m5-bottom {
+  margin-bottom: 5px;
+}
+
+.m10-bottom {
+  margin-bottom: 10px;
+}
+/* End header and text style */

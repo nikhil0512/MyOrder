@@ -1,6 +1,7 @@
 import os
 import json
 import xlwt
+import random
 from Nikhil.settings import BASE_DIR, EMAIL_HOST_USER
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -72,14 +73,21 @@ def items_snippet(request, category_id, item_name):
         category_id = 0
 
     if category_id != 0 and item_name != 'all':
-        items = items.filter(category_id=category_id, name__istartswith=item_name)
+        items = items.filter(category_id=category_id, name__icontains=item_name)
     else:
         if category_id != 0:
             items = items.filter(category_id=category_id)
         if item_name != 'all':
-            items = items.filter(name__istartswith=item_name)
+            items = items.filter(name__icontains=item_name)
+    result = {}
+    if not items:
+        random_number = random.randint(100000000, 999999999)
+        item = {'id': random_number, 'name': item_name}
+        result['temp_item'] = item
+    else:
+        result['items'] = items
     return HttpResponse(json.dumps(
-      dict(html=render_to_string('item_snippet.html', {'items':items}),
+      dict(html=render_to_string('item_snippet.html', result),
       )), content_type='application/json')
 
 

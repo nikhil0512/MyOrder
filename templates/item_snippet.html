@@ -1,42 +1,76 @@
 {% load static %}
-
-{% for item_obj in items %}
-    <div class="row item-list-row">
-        <div class="col-md-1 col-xs-1 col-sm-1">
-            <i id="item-check-{{ item_obj.id }}" class="fa fa-check hidden"></i>
-        </div>
-        <div class="fit_img col-md-2 col-xs-2 col-sm-2">
-            <img src="{{ item_obj.image_url.url }}" width="120px" height="120px">
-        </div>
-        <div class="col-md-9 col-xs-9 col-sm-9">
-            <div class="">{{ item_obj.name }}</div>
-            <div>{{ item_obj.hindiname }}</div>
-            <div class="row">
-                <div class="col-md-4 col-xs-4 col-sm-4">
-                    <input type="number" id="quantity-{{ item_obj.id }}"></div>
-                <div class="col-md-4 col-xs-4 col-sm-4">
-                    <select id="unit-{{ item_obj.id }}" onclick="set_units({{ item_obj.id }}, '{{ item_obj.unit|safe }}')"
-                            onchange="change_unit(this, 'unit-{{ item_obj.id }}')">
-                        <option>Select Unit</option>
-                    </select>
-                    {% if item_obj.sub_items %}
-                        <select id="subitemlist-{{ item_obj.id }}" onclick="set_subitem({{ item_obj.id }}, '{{ item_obj.sub_items|safe }}')"
-                                onchange="change_subitem(this, 'subitemlist-{{ item_obj.id }}')">
-                            <option>Choice your item</option>
+{% if items %}
+    {% for item_obj in items %}
+        <div class="row item-list-row form-group">
+            <div class="fit_img col-md-2 col-xs-2 col-sm-2">
+                <img src="{{ item_obj.image_url.url }}" width="150px" height="150px">
+            </div>
+            <div class="col-md-10 col-xs-10 col-sm-10">
+                <div class="row">
+                    <div class="col-xs-10 col-md-10 col-sm-10">
+                        <div class="item-name">{{ item_obj.name }}</div>
+                        <div class="item-hindi-name m5-bottom">{{ item_obj.hindiname }}</div>
+                    </div>
+                    <div class="col-xs-2 col-md-2 col-sm-2">
+                        <i id="item-check-{{ item_obj.id }}" class="fa fa-check-circle hidden" style="font-size: 30px"></i>
+                    </div>
+                </div>
+                <div class="row m10-bottom">
+                    <div class="col-sm-12 col-md-12 col-xs-12">
+                        <input name="brand" placeholder="Brand" class="form-control">
+                    </div>
+                </div>
+                <div class="row form-group m10-bottom">
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        <input type="number" id="quantity-{{ item_obj.id }}" class="form-control"></div>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        <select id="unit-{{ item_obj.id }}" onclick="set_units({{ item_obj.id }}, '{{ item_obj.unit|safe }}')"
+                                onchange="change_unit(this, 'unit-{{ item_obj.id }}')" class="form-control">
+                            <option>Select Unit</option>
                         </select>
-                    {% endif %}
+                        {% if item_obj.sub_items %}
+                            <select id="subitemlist-{{ item_obj.id }}" onclick="set_subitem({{ item_obj.id }}, '{{ item_obj.sub_items|safe }}')"
+                                    onchange="change_subitem(this, 'subitemlist-{{ item_obj.id }}')" class="form-control">
+                                <option>Choice your item</option>
+                            </select>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">
+                        <input type="hidden" id="hindiname-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
+                        <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{{ item_obj.image_url.url }}">
+                    </div>
+                    <div class="col-md-4 col-xs-4 col-sm-4">
+                        <button id="item-add-update-{{ item_obj.id }}" onclick="add_item_cart({{ item_obj.id }})" class="btn btn-primary form-control">Add</button>
+                    </div>
                 </div>
-                <div class="col-md-4 col-xs-4 col-sm-4">
-                    <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">
-                    <input type="hidden" id="hindiname-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
-                    <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{{ item_obj.image_url.url }}">
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="row item-list-row form-group">
+        <div class="fit_img col-md-2 col-xs-2 col-sm-2">
+        </div>
+        <div class="col-md-10 col-xs-10 col-sm-10">
+            <div class="row">
+                <div class="col-xs-10 col-md-10 col-sm-10">
+                    <div class="item-name">{{ temp_item.name }}</div>
                 </div>
-                <div class="col-md-4 col-xs-4 col-sm-4">
-                    <button id="item-add-update-{{ item_obj.id }}" onclick="add_item_cart({{ item_obj.id }})">Add</button>
+                <div class="col-xs-2 col-md-2 col-sm-2">
+                    <i id="item-check-{{ temp_item.id }}" class="fa fa-check-circle hidden" style="font-size: 30px"></i>
+                </div>
+            </div>
+            <div class="row m10-bottom">
+                <div class="col-sm-10 col-md-10 col-xs-10">
+                    <input name="comment" class="form-control" placeholder="Comment">
+                </div>
+
+                <div class="col-md-2 col-xs-2 col-sm-2">
+                    <input type="hidden" id="itemname-{{ temp_item.id }}" value="{{ temp_item.name }}">
+                    <button id="item-add-update-{{ temp_item.id }}" onclick="add_item_cart({{ temp_item.id }})" class="btn btn-primary form-control">Add</button>
                 </div>
             </div>
         </div>
     </div>
-{% endfor %}
-
+{% endif %}
 
