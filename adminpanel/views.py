@@ -116,7 +116,7 @@ def placeOrder(request):
             email = request.POST['email']
             item_dict = json.loads(request.POST['items-dict'].split(';')[0])
             create_exl(item_dict, phone)
-            file_path = BASE_DIR+'/'+phone+'.xls'
+            file_path = BASE_DIR+"\\"+phone+".xls"
             send_order(username, phone, address, file_path)
             os.remove(file_path)
             order_placed = True
