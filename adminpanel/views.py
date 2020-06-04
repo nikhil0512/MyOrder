@@ -126,11 +126,12 @@ def placeOrder(request):
         return redirect('/adminpanel/', {'order_placed': order_placed})
     return redirect('/adminpanel/', {'error': 'Invalid Request.'})
 
+
 def create_exl(item_dict, phone):
     book = xlwt.Workbook()
     sheet1 = book.add_sheet("PySheet1")
 
-    cols = ["Item Name", "Quantity", "Unit"]
+    cols = ["Item Name", "Quantity", "Unit", "Comment"]
     for i, header in enumerate(cols):
         sheet1.row(0).write(i, header)
     for row_index, item in enumerate(item_dict.values(), start=1):
@@ -156,6 +157,6 @@ def send_order(username, phone, address, file_path):
 mobile no - {}
 Address - {}'''.format(username, phone, address)
     recepient = 'nikhilrajeevgupta@gmail.com'
-    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient, 'sketchcraftstudio@gmail.com'])
+    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient, 'sketchcraftstudio@gmail.com','aktrds1@gmail.com'])
     email.attach_file(file_path)
     email.send()

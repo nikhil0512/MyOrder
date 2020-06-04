@@ -201,6 +201,8 @@ function edit_item(item_id, item_key) {
     }
 }
 
+localStorage.setItem("lastname", "Smith");
+
 function myorder() {
     var item_row_html;
     var item_order_list = $('#item_order_list');
