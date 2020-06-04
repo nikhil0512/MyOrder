@@ -22,7 +22,7 @@
                 </div>
                 <div class="row form-group m10-bottom">
                     <div class="col-md-4 col-xs-4 col-sm-4">
-                        <input type="number" id="quantity-{{ item_obj.id }}" class="form-control"></div>
+                        <input type="number" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" id="quantity-{{ item_obj.id }}" placeholder="Quantity" class="form-control"></div>
                     <div class="col-md-4 col-xs-4 col-sm-4">
                         <select id="unit-{{ item_obj.id }}" class="form-control">
                             {% with item_obj.unit_as_list as units %}
