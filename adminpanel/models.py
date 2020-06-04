@@ -36,6 +36,9 @@ class Items(models.Model):
     def __str__(self):
         return self.name
 
+    def unit_as_list(self):
+        return self.unit.split('/')
+
     def save(self, *args, **kwargs):
         val = getattr(self, 'name', False)
         if val:
