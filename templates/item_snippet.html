@@ -2,10 +2,10 @@
 {% if items %}
     {% for item_obj in items %}
         <div class="row item-list-row form-group">
-            <div class="fit_img col-md-2 col-xs-2 col-sm-2">
+            <div class="fit_img col-md-2 col-xs-2 col-sm-3">
                 <img src="{{ item_obj.image_url.url }}" width="150px" height="150px">
             </div>
-            <div class="col-md-10 col-xs-10 col-sm-10">
+            <div class="col-md-10 col-xs-10 col-sm-9">
                 <div class="row">
                     <div class="col-xs-10 col-md-10 col-sm-10">
                         <div class="item-name">{{ item_obj.name }}</div>
