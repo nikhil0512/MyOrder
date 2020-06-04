@@ -237,10 +237,10 @@ function myorder() {
         }
         else {
             item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
-            '        <div class="fit_img col-md-2 col-xs-2 col-sm-2">\n' +
+            '        <div class="fit_img col-md-2 col-xs-2 col-sm-3">\n' +
             '            <img src="' + item_data['img_url'] + '" width="150px" height="150px">\n' +
             '        </div>\n' +
-            '        <div class="col-md-8 col-xs-8 col-sm-8">\n' +
+            '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
             '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
