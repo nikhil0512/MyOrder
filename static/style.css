@@ -233,6 +233,9 @@ a {
 .m5-bottom {
   margin-bottom: 5px;
 }
+.m15-bottom {
+  margin-bottom: 15px;
+}
 
 .btn-style {
   font-size: 25px !important;
@@ -258,7 +261,7 @@ a {
     height: 200px !important;
     width: 180px !important;
   }
-  .item-list-header{
+  .common-header{
     font-size: 38px;
   }
   .item-name {
@@ -272,5 +275,9 @@ a {
   .tab .tablinks{
     font-size: 38px;
     font-weight: 400;
+  }
+  .form-label {
+    font-size: 32px;
+    font-weight: 200;
   }
 }

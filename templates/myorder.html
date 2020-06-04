@@ -36,7 +36,7 @@
                 <div id="item-detail" class="form-group">
                     <div class="row">
                         <div class="col-md-12 col-sm12 col-xs-12 h4">
-                            <div class="item-list-header">Add Order Details</div>
+                            <div class="common-header">Add Order Details</div>
                         </div>
                     </div>
                     <div class="row">
@@ -71,7 +71,7 @@
             <div id="myorder" class="tabcontent">
                 <div class="row">
                     <div class="col-md-12 col-sm12 col-xs-12 h4">
-                        <div class="item-list-header">My Orders</div>
+                        <div class="common-header">My Orders</div>
                     </div>
                 </div>
                 <div id="item_order_list">
@@ -87,30 +87,31 @@
         </div>
 
         <div id="user-detail" style="display: none">
-            <h4 class="subtitle">Add your detail</h4>
+            <div class="common-header" style="padding-bottom: 50px">Add your detail</div>
             <form method="post" action="/adminpanel/placeorder/">
                 {% csrf_token %}
-                <div class="userDetail">
-                    <div>
-                        <div>Name</div>
+                <div class="userDetail form-group">
+                    <div class="m15-bottom">
+                        <div class="form-label">Name</div>
                         <div><input type="text" id="username" name="username" class="form-control"></div>
                     </div>
-                    <div>
-                        <div>Phone</div>
+                    <div class="m15-bottom">
+                        <div class="form-label">Phone</div>
                         <div><input id="phone" name="phone" type="number" onchange="phonenumber(this)" class="form-control"></div>
                     </div>
-                    <div>
-                        <div>Address</div>
+                    <div class="m15-bottom">
+                        <div class="form-label">Address</div>
                         <div><input type="text" id="address" name="address" class="form-control"></div>
                     </div>
-                    <div>
-                        <div>Email(optional)</div>
+                    <div class="m15-bottom">
+                        <div class="form-label">Email(optional)</div>
                         <div><input type="text" id="email" name="email" type="email" class="form-control"></div>
                     </div>
                     <div>
                         <input id="item-list" style="display: none" name="items-dict">
                     </div>
-                    <div><button type="submit" class="btn btn-primary">Place Order</button></div>
+                    <div style="text-align: center; padding-top: 100px">
+                        <button type="submit" class="btn btn-primary form-control">Place Order</button></div>
                 </div>
             </form>
         </div>

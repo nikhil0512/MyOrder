@@ -1,10 +1,14 @@
 document.cookie = JSON.stringify({})
 
+var myorderlist = localStorage;
+if (myorderlist.getItem('ordered_list') == null){
+    myorderlist.setItem('ordered_list', JSON.stringify({}));
+}
 
 function gonext(){
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
-    $('#item-list').val(document.cookie);
+    $('#item-list').val(myorderlist.getItem('ordered_list'));
 }
 
 
@@ -158,7 +162,7 @@ function add_item_cart(item_id) {
         item_dict['subitem'] = subitem
     }
 
-    var cookies_data = JSON.parse(document.cookie.split(';')[0]);
+    var chache_data = JSON.parse(myorderlist.getItem('ordered_list'));
     if (subitem){
         var item_key = item_id + '_'+ subitem
     }
@@ -166,8 +170,8 @@ function add_item_cart(item_id) {
         var item_key = item_id
     }
 
-    cookies_data[item_key] = item_dict;
-    document.cookie = JSON.stringify(cookies_data);
+    chache_data[item_key] = item_dict;
+    myorderlist.setItem('ordered_list', JSON.stringify(chache_data))
 
     var check = document.getElementById('item-check-'+ item_id);
     check.classList.remove('hidden');
@@ -177,9 +181,9 @@ function add_item_cart(item_id) {
 }
 
 function remove_item(item_id, item_key) {
-    var cookie_data = JSON.parse(document.cookie.split(';')[0]);
-    delete cookie_data[item_key];
-    document.cookie = JSON.stringify(cookie_data);
+    var chache_data = JSON.parse(myorderlist.getItem('ordered_list'));
+    delete chache_data[item_key];
+    myorderlist['ordered_list'] = JSON.stringify(chache_data);
     var elem = document.querySelector('#order-row-'+item_key);
     elem.parentNode.removeChild(elem);
     document.getElementById('quantity-'+item_id).selectedIndex=0;
@@ -194,27 +198,25 @@ function edit_item(item_id, item_key) {
         alert('Please enter valid quantity.');
     }
     else{
-        var cookie_data = JSON.parse(document.cookie.split(';')[0]);
-        cookie_data[item_key]['quantity'] = quantity;
-        document.cookie = JSON.stringify(cookie_data);
+        var chache_data = JSON.parse(myorderlist.getItem('ordered_list'));
+        chache_data[item_key]['quantity'] = quantity;
+        myorderlist['ordered_list'] = JSON.stringify(chache_data);
         document.getElementById("edit-quantity-"+ item_key).innerHTML = quantity;
     }
 }
 
-localStorage.setItem("lastname", "Smith");
-
 function myorder() {
     var item_row_html;
     var item_order_list = $('#item_order_list');
-    var cookie_data = JSON.parse(document.cookie.split(';')[0]);
+    var chache_data = JSON.parse(myorderlist.getItem('ordered_list'));
     item_order_list.empty();
-    for(item_id in cookie_data){
-        item_data = cookie_data[item_id];
+    for(item_id in chache_data){
+        item_data = chache_data[item_id];
         if (item_data['new_item'] != undefined){
             item_row_html = '<div id="order-row-'+ item_id +'" class="row item-list-row form-group">\n' +
-            '        <div class="fit_img col-md-2 col-xs-3 col-sm-2">\n' +
+            '        <div class="fit_img col-md-2 col-xs-2 col-sm-3">\n' +
             '        </div>\n' +
-            '        <div class="col-md-8 col-xs-7 col-sm-8">\n' +
+            '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
             '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
@@ -264,22 +266,9 @@ function myorder() {
             '    </div>'
         }
         item_order_list.append(item_row_html);
-        console.log(cookie_data[item_id]);
+        console.log(chache_data[item_id]);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 * <script>
