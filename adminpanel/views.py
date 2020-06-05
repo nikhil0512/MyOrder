@@ -116,7 +116,7 @@ def placeOrder(request):
             email = request.POST['email']
             item_dict = json.loads(request.POST['items-dict'].split(';')[0])
             create_exl(item_dict, phone)
-            file_path = BASE_DIR+"\\"+phone+".xls"
+            file_path = BASE_DIR+"//"+phone+".xls"
             send_order(username, phone, address, file_path)
             os.remove(file_path)
             order_placed = True
@@ -157,6 +157,8 @@ def send_order(username, phone, address, file_path):
 mobile no - {}
 Address - {}'''.format(username, phone, address)
     recepient = 'nikhilrajeevgupta@gmail.com'
-    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient, 'sketchcraftstudio@gmail.com','aktrds1@gmail.com'])
+    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient])
     email.attach_file(file_path)
     email.send()
+
+# 'sketchcraftstudio@gmail.com','aktrds1@gmail.com'
