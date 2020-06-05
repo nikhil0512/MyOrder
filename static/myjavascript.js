@@ -8,6 +8,7 @@ function gonext(){
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
     $('#item-list').val(myorderlist.getItem('ordered_list'));
+    myorderlist.clear();
 }
 
 
