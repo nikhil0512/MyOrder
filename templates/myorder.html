@@ -88,7 +88,7 @@
 
         <div id="user-detail" style="display: none">
             <div class="common-header" style="padding-bottom: 50px">Add your detail</div>
-            <form method="post" action="/adminpanel/placeorder/">
+            <form method="post" action="/adminpanel/placeorder/" id="user_details_form">
                 {% csrf_token %}
                 <div class="userDetail form-group">
                     <div class="m15-bottom">
@@ -111,7 +111,14 @@
                         <input id="item-list" style="display: none" name="items-dict">
                     </div>
                     <div style="text-align: center; padding-top: 100px">
-                        <button type="submit" class="btn btn-primary form-control">Place Order</button></div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <button type="button" class="btn btn-info form-control" onclick="goback()">Back</button>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <button type="button" class="btn btn-primary form-control" onclick="submit_order()">Place Order</button></div>
+                            </div>
+                        </div>
                 </div>
             </form>
         </div>

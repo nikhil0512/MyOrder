@@ -7,10 +7,35 @@ if (myorderlist.getItem('ordered_list') == null){
 function gonext(){
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
-    $('#item-list').val(myorderlist.getItem('ordered_list'));
-    myorderlist.clear();
 }
 
+function goback(){
+    document.getElementById("user-detail").style.display = "none";
+    document.getElementById("item-detail").style.display = "block";
+}
+
+function submit_order(){
+    if (document.forms.user_details_form.username.value == "") {
+        alert("Please enter your name.");
+        document.forms.user_details_form.username.focus();
+        return false;
+    }
+    if (document.forms.user_details_form.phone.value == "") {
+        alert("Please enter your mobile number.");
+        document.forms.user_details_form.phone.focus();
+        return false;
+    }
+    var address = $('#username').val();
+    if (document.forms.user_details_form.address.value == "") {
+        alert("Please enter your address.");
+        document.forms.user_details_form.address.focus()
+        return false;
+    }
+    $('#item-list').val(myorderlist.getItem('ordered_list'));
+    myorderlist.clear();
+
+    document.getElementById("user_details_form").submit();
+}
 
 function phonenumber(inputtxt)
 {
