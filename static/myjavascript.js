@@ -15,6 +15,7 @@ function goback(){
 }
 
 function submit_order(){
+
     if (document.forms.user_details_form.username.value == "") {
         alert("Please enter your name.");
         document.forms.user_details_form.username.focus();
@@ -25,6 +26,13 @@ function submit_order(){
         document.forms.user_details_form.phone.focus();
         return false;
     }
+    else{
+        if (phonenumber(document.forms.user_details_form.phone.value) == false) {
+            document.forms.user_details_form.phone.focus();
+            return false;
+        }
+    }
+
     var address = $('#username').val();
     if (document.forms.user_details_form.address.value == "") {
         alert("Please enter your address.");
@@ -33,14 +41,14 @@ function submit_order(){
     }
     $('#item-list').val(myorderlist.getItem('ordered_list'));
     myorderlist.clear();
-
+    alert("your order is placed successfully.");
     document.getElementById("user_details_form").submit();
 }
 
 function phonenumber(inputtxt)
 {
       var phoneno = /^\d{10}$/;
-      if(inputtxt.value.match(phoneno))
+      if(inputtxt.match(phoneno))
       {
           return true;
       }
