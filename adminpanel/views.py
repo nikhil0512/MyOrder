@@ -23,15 +23,17 @@ def uploaddatatemp(request):
             category = s.cell(row, 1).value
             category_hindi = s.cell(row, 2).value
             category_obj, _ = Category.objects.get_or_create(name=category.capitalize(), hindiname=category_hindi)
-
             name = s.cell(row, 3).value
             name_hindi = s.cell(row, 4).value
             unit = s.cell(row, 5).value
             image_url = s.cell(row, 6).value
-            sub_items = s.cell(row, 7).value
-            obj = Items.objects.create(name=name, hindiname=name_hindi, unit=unit, image_url=image_url,
+            sub_items = s.cell(row, 8).value
+            obj, _ = Items.objects.get_or_create(name=name, hindiname=name_hindi, unit=unit, image_url=image_url,
                                        sub_items=sub_items, category=category_obj)
-            obj.save()
+            tags = s.cell(row, 7).value
+            [obj.tags.add(tag.strip()) for tag in tags.split(',')]
+            obj.tags.add(tags)
+
     obj = Items.objects.all().values()
     return HttpResponse(obj)
 
@@ -46,7 +48,6 @@ def uploaddata(request):
         for s in wb.sheets():
             for row in range(1, s.nrows):
                 name = s.cell(row, 0).value
-
                 unit = s.cell(row, 1).value
                 obj = Items.objects.create(name=name, unit=unit)
                 obj.save()
@@ -73,12 +74,12 @@ def items_snippet(request, category_id, item_name):
         category_id = 0
 
     if category_id != 0 and item_name != 'all':
-        items = items.filter(category_id=category_id, name__icontains=item_name)
+        items = items.filter(category_id=category_id, tags__name__icontains=item_name).distinct()
     else:
         if category_id != 0:
             items = items.filter(category_id=category_id)
         if item_name != 'all':
-            items = items.filter(name__icontains=item_name)
+            items = items.filter(tags__name__icontains=item_name).distinct()
     result = {}
     if not items:
         random_number = random.randint(100000000, 999999999)

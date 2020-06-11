@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 
 
 class Category(models.Model):
@@ -26,6 +27,8 @@ class Items(models.Model):
     unit = models.CharField(max_length=50)
     image_url = models.ImageField(upload_to='grokey_images', default='')
     sub_items = models.CharField(max_length=500, null=True, blank=True)
+    tags = TaggableManager()
+    active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     created_on = models.DateTimeField(default=timezone.now, null=True, blank=True, auto_created=True)
 
