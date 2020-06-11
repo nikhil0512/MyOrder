@@ -107,24 +107,6 @@ function  item_snippet() {
     })
 }
 
-function set_units(id, units){
-    unit_list = units.split('/');
-    select_unit_dropdown = $('#unit-'+id);
-    select_unit_dropdown.empty();
-    select_unit_dropdown.append($('<option>', {value:'', text:'Select Unit'}));
-    for(i=0;i<unit_list.length;i++){
-        select_unit_dropdown.append($('<option>', {value:unit_list[i], text:unit_list[i]}));
-    }
-}
-
-function change_unit(clicked_unit, select_id) {
-    event.preventDefault();
-    var a = clicked_unit.value;
-    document.getElementById(select_id).selecteIndexd = clicked_unit.options.selectedIndex;
-    console.log(a);
-    return true;
-}
-
 function set_subitem(id, subitems){
     unit_list = subitems.split('/');
     select_unit_dropdown = $('#subitemlist-'+id);
@@ -143,13 +125,6 @@ function change_subitem(clicked_subitem, select_id) {
     return true;
 }
 
-function set_default_units(units_list) {
-    select_unit_dropdown = $('#unit-dropdown')
-    for(i=0;i<units_list.length;i++){
-        select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
-    }
-}
-
 function add_item_cart(item_id) {
     var item_dict = {};
     var itemname = $('#itemname-'+item_id);
@@ -160,9 +135,15 @@ function add_item_cart(item_id) {
     if (hindiname != undefined){
         item_dict['hindiname'] = hindiname;
     }
+    else{
+        item_dict['hindiname'] = '';
+    }
     var item_img = $('#itemimg-'+item_id).val();
     if (item_img != undefined){
-        item_dict['img_url'] = item_img
+        item_dict['img_url'] = item_img;
+    }
+    else{
+        item_dict['img_url'] = '';
     }
 
     var quantity = $('#quantity-'+item_id).val();
@@ -170,18 +151,26 @@ function add_item_cart(item_id) {
         alert("Please enter Quantity.");
         return false;
     }
-    if (quantity != undefined){
-        item_dict['quantity'] = quantity
+    else{
+        if (quantity != undefined){
+            item_dict['quantity'] = quantity;
+        }
+        else{
+            item_dict['quantity'] = '';
+        }
     }
+
     var new_item = $('#new-item-'+item_id).val();
     if (new_item != undefined){
         item_dict['new_item'] = true;
-        var comment = $('#comment-'+item_id).val();
-        if (comment == undefined){
-            comment = ''
-        }
-        item_dict['comment'] = comment;
+
     }
+
+    var brand = $('#brand-'+item_id).val();
+    if (brand == undefined){
+        brand = ''
+    }
+    item_dict['brand'] = '-' + brand;
 
     item_dict['id'] = item_id;
 
@@ -252,13 +241,13 @@ function myorder() {
             '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
-            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
-            '                   <div class="item-hindi-name m5-bottom">' + item_data['comment'] + '</div>\n' +
+            '                   <div class="item-name">' + item_data['name'] +''+ item_data['brand'] + '</div>\n' + '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
+            '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +
             '                </div>' +
             '            </div>'+
             '        </div>\n' +
             '        <div class="col-md-1 col-sm-1 col-xs-1">' +
-            '        '+
+            '        <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_data['id'] + ')"></i>'+
             '        </div>'+
             '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',' + item_id + ')">' +
             '           <div class="icon-trash" style="float: left">\n' +
@@ -278,7 +267,7 @@ function myorder() {
             '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
-            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
+            '                   <div class="item-name">' + item_data['name'] +''+ item_data['brand'] + '</div>\n' +
             '                   <div class="item-hindi-name m5-bottom">' +  item_data['hindiname'] + '</div>\n' +
             '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
             '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +

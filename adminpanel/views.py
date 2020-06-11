@@ -83,7 +83,8 @@ def items_snippet(request, category_id, item_name):
     result = {}
     if not items:
         random_number = random.randint(100000000, 999999999)
-        item = {'id': random_number, 'name': item_name}
+        available_units = ['kg', 'gram', 'ml', 'ltr', 'no.s']
+        item = {'id': random_number, 'name': item_name, 'units': available_units}
         result['temp_item'] = item
     else:
         result['items'] = items
@@ -94,16 +95,9 @@ def items_snippet(request, category_id, item_name):
 
 def home(request):
     items = Items.objects.all()
-    items_unit_list = items.distinct().values_list('unit', flat=True)
     categories = Category.objects.all()
-    available_units = []
-    for units in items_unit_list:
-        for unit in units.split('/'):
-            if unit not in available_units:
-                available_units.append(unit)
-
     return render(request, 'myorder.html',
-                  context={'items': items, 'units': available_units, 'categories': categories, 'base':BASE_DIR})
+                  context={'items': items, 'categories': categories, 'base':BASE_DIR})
 
 
 @csrf_exempt
@@ -132,22 +126,15 @@ def create_exl(item_dict, phone):
     book = xlwt.Workbook()
     sheet1 = book.add_sheet("PySheet1")
 
-    cols = ["Item Name", "Quantity", "Unit", "Comment"]
+    cols = ["Item Name", "Quantity", "Unit", "Brand"]
     for i, header in enumerate(cols):
         sheet1.row(0).write(i, header)
     for row_index, item in enumerate(item_dict.values(), start=1):
         row = sheet1.row(row_index)
-        if item.get('new_item'):
-            row.write(0, item['name'])
-            row.write(1, '')
-            row.write(2, '')
-            row.write(3, item.get('comment', ''))
-
-        else:
-            row.write(0, item.get('name', ''))
-            row.write(1, item.get('quantity', ''))
-            row.write(2, item.get('unit', ''))
-            row.write(3, item.get('comment', ''))
+        row.write(0, item.get('name', ''))
+        row.write(1, item.get('quantity', ''))
+        row.write(2, item.get('unit', ''))
+        row.write(3, item.get('brand', '')[1::])
     print(BASE_DIR+"/"+phone+".xls")
     book.save(BASE_DIR+"/"+phone+".xls")
 
