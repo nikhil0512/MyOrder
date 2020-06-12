@@ -87,8 +87,15 @@ function openTab(evt, tabName) {
 }
 
 
-function  item_snippet() {
-    var term = $('#itemname').val();
+function  item_snippet(select_event) {
+    var term = ''
+    if (select_event != true){
+        term = $('#itemname').val();
+    }
+    else {
+        $('#itemname').val('');
+    }
+
     var category_filter = $('#category_list').val();
     if (category_filter === undefined || category_filter ==0) {
         category_filter = 0;

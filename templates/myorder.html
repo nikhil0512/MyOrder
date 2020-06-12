@@ -46,7 +46,7 @@
                                     <label for="Name" style="font-size: 35px; color: #c65800">Item Name </label>
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <select id="category_list" name="category_list" onchange="item_snippet()" class="form-control">
+                                    <select id="category_list" name="category_list" onchange="item_snippet(true)" class="form-control">
                                         <option value="0">All Category</option>
                                         {% for cat_obj in categories %}
                                             <option value="{{ cat_obj.id }}">{{ cat_obj.name }}</option>
@@ -127,17 +127,17 @@
 <script>
     $("document").ready(function() {
         openTab(event, 'itemlist');
-        item_snippet();
+        item_snippet(false);
     });
 
     var el = document.getElementById('itemname');
     el.addEventListener('keyup', function(event) {
         // Checking for Backspace.
         if (event.keyCode == 8 || event.keyCode == 46) {
-            item_snippet()
+            item_snippet(false);
         }
         else{
-            item_snippet()
+            item_snippet(false);
         }
     });
 </script>
