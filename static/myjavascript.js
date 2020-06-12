@@ -5,6 +5,10 @@ if (myorderlist.getItem('ordered_list') == null){
 }
 
 function gonext(){
+    if (Object.keys(JSON.parse(myorderlist.getItem('ordered_list'))).length == 0){
+        alert("Add Items in your cart.");
+        return false;
+    }
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
 }
