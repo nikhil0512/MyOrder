@@ -144,7 +144,7 @@ def send_order(username, phone, address, file_path):
     message = '''User - {}
 mobile no - {}
 Address - {}'''.format(username, phone, address)
-    recepient = 'nikhilrajeevgupta@gmail.com'
-    email = EmailMessage(subject, message, EMAIL_HOST_USER, [recepient, 'sketchcraftstudio@gmail.com','aktrds1@gmail.com'])
+    recepient = ['aktrds1@gmail.com', 'sketchcraftstudio@gmail.com', 'gupta.nikhil.0512@gmail.com']
+    email = EmailMessage(subject, message, EMAIL_HOST_USER, recepient)
     email.attach_file(file_path)
     email.send()
