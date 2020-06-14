@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^$', home),
     url(r'^getItems/', getItems),
     url(r'^placeorder/', placeOrder),
-    url(r'^upload_data/', uploaddata),
+    url(r'^uploaddata/', uploaddata),
     url(r'^uploaddatatemp/', uploaddatatemp),
     url(r'^items_snippet/(?P<category_id>[- \d]+)/(?P<item_name>[- \d\w]+)/$', items_snippet)
 ]

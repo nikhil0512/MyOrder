@@ -31,6 +31,8 @@ class Items(models.Model):
     active = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     created_on = models.DateTimeField(default=timezone.now, null=True, blank=True, auto_created=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
 
     class Meta:
         verbose_name = 'Item List'

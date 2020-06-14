@@ -148,3 +148,4 @@ Address - {}'''.format(username, phone, address)
     email = EmailMessage(subject, message, EMAIL_HOST_USER, recepient)
     email.attach_file(file_path)
     email.send()
+
