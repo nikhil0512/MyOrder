@@ -91,7 +91,7 @@ function openTab(evt, tabName) {
 }
 
 
-function  item_snippet(select_event) {
+function  item_snippet(select_event, slug) {
     var term = ''
     if (select_event != true){
         term = $('#itemname').val();
@@ -107,7 +107,7 @@ function  item_snippet(select_event) {
     if (term === undefined || term == '') {
         term = 'all';
     }
-    var url_str = '/adminpanel/items_snippet/' + category_filter + '/' + term
+    var url_str = '/adminpanel/items_snippet/' + slug + '/' + category_filter + '/' + term;
     $.ajax({
         url: url_str,
         type: 'GET'

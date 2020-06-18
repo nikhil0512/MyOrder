@@ -5,6 +5,10 @@ if (myorderlist.getItem('ordered_list') == null){
 }
 
 function gonext(){
+    if (Object.keys(JSON.parse(myorderlist.getItem('ordered_list'))).length == 0){
+        alert("Add Items in your cart.");
+        return false;
+    }
     document.getElementById("user-detail").style.display = "block";
     document.getElementById("item-detail").style.display = "none";
 }
@@ -15,6 +19,7 @@ function goback(){
 }
 
 function submit_order(){
+
     if (document.forms.user_details_form.username.value == "") {
         alert("Please enter your name.");
         document.forms.user_details_form.username.focus();
@@ -25,6 +30,13 @@ function submit_order(){
         document.forms.user_details_form.phone.focus();
         return false;
     }
+    else{
+        if (phonenumber(document.forms.user_details_form.phone.value) == false) {
+            document.forms.user_details_form.phone.focus();
+            return false;
+        }
+    }
+
     var address = $('#username').val();
     if (document.forms.user_details_form.address.value == "") {
         alert("Please enter your address.");
@@ -33,14 +45,14 @@ function submit_order(){
     }
     $('#item-list').val(myorderlist.getItem('ordered_list'));
     myorderlist.clear();
-
+    alert("your order is placed successfully.");
     document.getElementById("user_details_form").submit();
 }
 
 function phonenumber(inputtxt)
 {
       var phoneno = /^\d{10}$/;
-      if(inputtxt.value.match(phoneno))
+      if(inputtxt.match(phoneno))
       {
           return true;
       }
@@ -79,8 +91,15 @@ function openTab(evt, tabName) {
 }
 
 
-function  item_snippet() {
-    var term = $('#itemname').val();
+function  item_snippet(select_event, slug) {
+    var term = ''
+    if (select_event != true){
+        term = $('#itemname').val();
+    }
+    else {
+        $('#itemname').val('');
+    }
+
     var category_filter = $('#category_list').val();
     if (category_filter === undefined || category_filter ==0) {
         category_filter = 0;
@@ -88,7 +107,7 @@ function  item_snippet() {
     if (term === undefined || term == '') {
         term = 'all';
     }
-    var url_str = '/adminpanel/items_snippet/' + category_filter + '/' + term
+    var url_str = '/adminpanel/items_snippet/' + slug + '/' + category_filter + '/' + term;
     $.ajax({
         url: url_str,
         type: 'GET'
@@ -97,24 +116,6 @@ function  item_snippet() {
         items_ul.empty();
         items_ul.append(resp.html);
     })
-}
-
-function set_units(id, units){
-    unit_list = units.split('/');
-    select_unit_dropdown = $('#unit-'+id);
-    select_unit_dropdown.empty();
-    select_unit_dropdown.append($('<option>', {value:'', text:'Select Unit'}));
-    for(i=0;i<unit_list.length;i++){
-        select_unit_dropdown.append($('<option>', {value:unit_list[i], text:unit_list[i]}));
-    }
-}
-
-function change_unit(clicked_unit, select_id) {
-    event.preventDefault();
-    var a = clicked_unit.value;
-    document.getElementById(select_id).selecteIndexd = clicked_unit.options.selectedIndex;
-    console.log(a);
-    return true;
 }
 
 function set_subitem(id, subitems){
@@ -135,13 +136,6 @@ function change_subitem(clicked_subitem, select_id) {
     return true;
 }
 
-function set_default_units(units_list) {
-    select_unit_dropdown = $('#unit-dropdown')
-    for(i=0;i<units_list.length;i++){
-        select_unit_dropdown.append($('<option>', {value:units_list[i], text:units_list[i]}));
-    }
-}
-
 function add_item_cart(item_id) {
     var item_dict = {};
     var itemname = $('#itemname-'+item_id);
@@ -152,9 +146,15 @@ function add_item_cart(item_id) {
     if (hindiname != undefined){
         item_dict['hindiname'] = hindiname;
     }
+    else{
+        item_dict['hindiname'] = '';
+    }
     var item_img = $('#itemimg-'+item_id).val();
     if (item_img != undefined){
-        item_dict['img_url'] = item_img
+        item_dict['img_url'] = item_img;
+    }
+    else{
+        item_dict['img_url'] = '';
     }
 
     var quantity = $('#quantity-'+item_id).val();
@@ -162,18 +162,26 @@ function add_item_cart(item_id) {
         alert("Please enter Quantity.");
         return false;
     }
-    if (quantity != undefined){
-        item_dict['quantity'] = quantity
+    else{
+        if (quantity != undefined){
+            item_dict['quantity'] = quantity;
+        }
+        else{
+            item_dict['quantity'] = '';
+        }
     }
+
     var new_item = $('#new-item-'+item_id).val();
     if (new_item != undefined){
         item_dict['new_item'] = true;
-        var comment = $('#comment-'+item_id).val();
-        if (comment == undefined){
-            comment = ''
-        }
-        item_dict['comment'] = comment;
+
     }
+
+    var brand = $('#brand-'+item_id).val();
+    if (brand == undefined){
+        brand = ''
+    }
+    item_dict['brand'] = '-' + brand;
 
     item_dict['id'] = item_id;
 
@@ -244,13 +252,13 @@ function myorder() {
             '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
-            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
-            '                   <div class="item-hindi-name m5-bottom">' + item_data['comment'] + '</div>\n' +
+            '                   <div class="item-name">' + item_data['name'] +''+ item_data['brand'] + '</div>\n' + '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
+            '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +
             '                </div>' +
             '            </div>'+
             '        </div>\n' +
             '        <div class="col-md-1 col-sm-1 col-xs-1">' +
-            '        '+
+            '        <i class="fa fa-edit" style="font-size:30px" onclick="edit_item('+ item_data['id'] +',' +item_data['id'] + ')"></i>'+
             '        </div>'+
             '        <div class="col-md-1 col-sm-1 col-xs-1" style="cursor: pointer; z-index: 5" onclick="remove_item('+ item_data['id'] +',' + item_id + ')">' +
             '           <div class="icon-trash" style="float: left">\n' +
@@ -270,7 +278,7 @@ function myorder() {
             '        <div class="col-md-8 col-xs-8 col-sm-7">\n' +
             '            <div class="row">' +
             '                <div class="col-sm-12 col-md-12 col-xs-12">' +
-            '                   <div class="item-name">' + item_data['name'] + '</div>\n' +
+            '                   <div class="item-name">' + item_data['name'] +''+ item_data['brand'] + '</div>\n' +
             '                   <div class="item-hindi-name m5-bottom">' +  item_data['hindiname'] + '</div>\n' +
             '                   <div id="edit-quantity-'+ item_id +'" style="display: inline-block; font-size: 20px">' +  item_data['quantity'] +' </div>' +
             '                   <div style="display: inline-block; font-size: 20px">' + item_data['unit'] + '</div>\n' +

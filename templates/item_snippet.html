@@ -1,9 +1,9 @@
-{% load static %}
+{% load static adminpanel_custom_tag %}
 {% if items %}
     {% for item_obj in items %}
         <div class="row item-list-row form-group">
             <div class="fit_img col-md-2 col-xs-2 col-sm-3">
-                <img src="{{ item_obj.image_url.url }}" width="150px" height="150px">
+                <img src={% get_item_image item_obj %} width="150px" height="150px">
             </div>
             <div class="col-md-10 col-xs-10 col-sm-9">
                 <div class="row">
@@ -41,7 +41,7 @@
                     <div class="col-md-4 col-xs-4 col-sm-4">
                         <input type="hidden" id="itemname-{{ item_obj.id }}" value="{{ item_obj.name }}">
                         <input type="hidden" id="hindiname-{{ item_obj.id }}" value="{{ item_obj.hindiname }}">
-                        <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{{ item_obj.image_url.url }}">
+                        <input type="hidden" id="itemimg-{{ item_obj.id }}" value="{% get_item_image item_obj %}">
                         <button id="item-add-update-{{ item_obj.id }}" onclick="add_item_cart({{ item_obj.id }})" class="btn btn-primary form-control btn-style">Add</button>
                     </div>
                 </div>

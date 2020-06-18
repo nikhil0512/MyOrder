@@ -5,7 +5,7 @@
     <title>A K Traders</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="/resources/demos/style.css">
-    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}/static/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -15,7 +15,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <script src="../static/myjavascript.js"></script>
+    <script src="{{ STATIC_URL }}/static/myjavascript.js"></script>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
         {% if order_placed %}
             <div class="alert alert-success h5" role="alert">your order is placed.</div>
         {% endif %}
-        <div class="header-top">A K Traders </div><br/>
+        <div class="header-top">{{ store.storename|title }} </div><br/>
         <div id="item-detail">
             <!-- Tab links -->
             <div class="tab">
@@ -90,6 +90,7 @@
             <div class="common-header" style="padding-bottom: 50px">Add your detail</div>
             <form method="post" action="/adminpanel/placeorder/" id="user_details_form">
                 {% csrf_token %}
+                <input type="hidden" name="slug" value="{{ store.slug }}">
                 <div class="userDetail form-group">
                     <div class="m15-bottom">
                         <div class="form-label">Name</div>
@@ -127,19 +128,18 @@
 <script>
     $("document").ready(function() {
         openTab(event, 'itemlist');
-        item_snippet(false);
+        item_snippet(false, '{{ store.slug }}');
     });
 
     var el = document.getElementById('itemname');
     el.addEventListener('keyup', function(event) {
         // Checking for Backspace.
         if (event.keyCode == 8 || event.keyCode == 46) {
-            item_snippet(false);
+            item_snippet(false, '{{ store.slug }}');
         }
         else{
-            item_snippet(false);
+            item_snippet(false, '{{ store.slug }}');
         }
     });
 </script>
 </html>
-

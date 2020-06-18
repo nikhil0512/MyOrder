@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter, ListFilter
-from adminpanel.models import Items, Category
+from adminpanel.models import Items, Category, Store, StoreItem
 from django.db.models import Q
 from django.urls import path
 
@@ -8,6 +8,8 @@ from django.urls import path
 admin.site.site_header = 'Admin Panel'
 
 admin.site.register(Category)
+admin.site.register(Store)
+admin.site.register(StoreItem)
 
 
 class ItemFilter(SimpleListFilter):
@@ -30,6 +32,7 @@ class ItemFilter(SimpleListFilter):
              all_items = all_items.filter(Q(created_on__gte=start_date), Q(created_on__lt=end_date))
         return all_items
 
+
 # ModelAdmin Class # DataFlair
 class ItemsA(admin.ModelAdmin):
     exclude = ('created_on', )
@@ -47,5 +50,6 @@ class ItemsA(admin.ModelAdmin):
 
     def change_font_size(self):
         return 1
+
 
 admin.site.register(Items, ItemsA)

@@ -71,6 +71,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'Nikhil.context_processor.root_url'
             ],
+        'builtins': [
+                'adminpanel.templatetags.adminpanel_custom_tag'],
         },
     },
 ]
@@ -125,6 +127,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+LOGIN_URL = '/adminpanel/'
 STATIC_URL = '/static/'
 
 
@@ -132,8 +135,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'aktraders0731@gmail.com'
-EMAIL_HOST_PASSWORD = 'Aktraders@2020'
+EMAIL_HOST_USER = 'customerplacedorder@gmail.com' #'aktraders0731@gmail.com'
+EMAIL_HOST_PASSWORD = 'Customerplaced0rder' #'Aktraders@2020'
+
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
