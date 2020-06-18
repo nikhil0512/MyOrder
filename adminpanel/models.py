@@ -29,7 +29,7 @@ def get_grocery_images(instance, filename):
 class Items(models.Model):
     name = models.CharField(max_length=100)
     hindiname = models.CharField(max_length=100)
-    unit = models.CharField(max_length=50)
+    unit = models.CharField(max_length=150)
     image_url = models.ImageField(upload_to=get_grocery_images, default='')
     sub_items = models.CharField(max_length=500, null=True, blank=True)
     tags = TaggableManager()
