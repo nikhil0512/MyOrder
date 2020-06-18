@@ -49,7 +49,7 @@ def uploaddata(request):
         store = request.user.store
         username = request.user.username
 
-        wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
+        wb = open_workbook(BASE_DIR+'/inventory list bharti plastic.xlsx')
         Items.objects.all().delete()
         #Category.objects.all().delete()
         print(wb.sheets()[0].nrows)
