@@ -46,11 +46,12 @@ def uploaddata(request):
         return HttpResponseRedirect(LOGIN_URL)
 
     if request.method == 'GET':
-        store = request.user.store
-        username = request.user.username
+        user = request.user
+        store = user.store
+        username = user.username
 
         wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
-        #Items.objects.all().delete()
+        Items.objects.filter(id__in=StoreItem.objects.filter(store__user=user).values_list('id', flat=True)).delete()
         #Category.objects.all().delete()
         print(wb.sheets()[0].nrows)
         for s in wb.sheets():
