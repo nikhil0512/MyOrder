@@ -52,6 +52,7 @@ def uploaddata(request):
 
         wb = open_workbook(BASE_DIR+'/inventory list.xlsx')
         Items.objects.filter(id__in=StoreItem.objects.filter(store__user=user).values_list('id', flat=True)).delete()
+        StoreItem.objects.filter(store__user=user).delete()
         #Category.objects.all().delete()
         print(wb.sheets()[0].nrows)
         for s in wb.sheets():
@@ -126,9 +127,9 @@ def home1(request):
 
 
 def home(request, slug):
-    categories = Category.objects.all()
     try:
         store = Store.objects.get(slug=slug)
+        categories = Category.objects.filter(id__in=store.storeitem_set.all().values_list('item__category', flat=True))
     except:
         return HttpResponseBadRequest
     return render(request, 'myorder.html',
