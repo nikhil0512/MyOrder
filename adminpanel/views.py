@@ -2,7 +2,6 @@ import os
 import json
 import xlwt
 import random
-
 from Nikhil.settings import BASE_DIR, EMAIL_HOST_USER, LOGIN_URL
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
